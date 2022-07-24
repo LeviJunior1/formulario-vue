@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-Vue.config.productionTip = false
+import './plugins/bootstrap'
+
+Vue.config.productionTip = process.env.BASE_URL != 'production'
 
 new Vue({
   router,
