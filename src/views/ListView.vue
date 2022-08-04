@@ -1,6 +1,6 @@
 <template>
   <b-container>
-      <ListContact :contacts="listContacts" />
+      <ListContact :contacts="listContacts" @getInfo="getInfo"/>
   </b-container>
 </template>
 
@@ -17,7 +17,12 @@ export default {
     listContacts: []
   }),
   mounted() {
-    this.listContacts = getAllInfo()
+    this.getInfo()
+  },
+  methods: {
+    getInfo() {
+      this.listContacts = getAllInfo()
+    }
   }
   
 }

@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ invalid }">
     <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
-      <ValidationProvider rules="required" v-slot="{ errors }">
+      <ValidationProvider rules="required|name" v-slot="{ errors }">
         <b-form-group id="input-group-1" label="Nome" label-for="input-1">
           <b-form-input
             id="input-1"
@@ -26,7 +26,7 @@
           <span>{{ errors[0] }}</span>
         </b-form-group>
       </ValidationProvider>
-      <ValidationProvider rules="required" v-slot="{ errors }">
+      <ValidationProvider rules="required|max:300" v-slot="{ errors }">
         <b-form-group
           id="input-group-3"
           label="Mensagem"
@@ -36,7 +36,7 @@
             id="input-3"
             v-model="form.message"
             rows="6"
-            placeholder="Digite a mensagem aqui..."
+            placeholder="Digite a sua mensagem aqui..."
           ></b-form-textarea>
           <span>{{ errors[0] }}</span>
         </b-form-group>
@@ -50,38 +50,37 @@
 
 <script>
   import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-  import { required, email } from 'vee-validate/dist/rules';
+  import { required, email, max } from 'vee-validate/dist/rules';
   import { setInfo } from '@/utils/sessionStorage'
+  import toast from '@/mixins/toast'
+  import { validarNome } from '@/utils/validation/name'
 
-  /*
-
-    - Campo de validar nome falta o validador,
-    - CSS do formulário,
-    - Pagina de lista de contatos,
-    - Css página de contato
-
-  */
-
-  // import { validarNome } from '@/utils/validation/name'
-
-  // extend('teste', value => {
-  //   // console.log('Validando nome: ', value)
-  //   console.log(validarNome(value))
-  //   //return validarNome(value)
-  // })
+  extend('name', value => {
+    if(validarNome(value)) {
+      return true
+    }
+    
+    return 'O nome não é válido.'
+  })
 
   extend('email', {
     ...email,
-    message: 'E-mail inválido verifique se preencheu corretamente'
+    message: 'E-mail inválido verifique se preencheu corretamente.'
   })
 
   extend('required', {
     ...required,
-    message: 'É necessário preencher esse campo'
+    message: 'É necessário preencha esse campo.'
+  })
+
+  extend('max', {
+    ...max,
+    message: 'O valor máximo aceito é 300 letras.'
   })
 
   export default {
     name: 'FormContact',
+    mixins: [toast],
     components: {
       ValidationProvider,
       ValidationObserver
@@ -95,11 +94,21 @@
     }),
     methods: {
       onSubmit() {
-        setInfo(this.form)
+        try {
+          setInfo(this.form)
+          this.showToast('success', "Tudo certo...", "Contato Salvo com Sucesso :)", 'b-toaster-bottom-left', true)
+          this.resetData()
+        } catch(e) {
+          this.showToast('danger', "Hmm...", "Erro ao Salvar :(", 'b-toaster-bottom-left', true)
+        }
       },
       onReset() {
-        Object.assign(this.$data, this.$options.data())
+        this.resetData()
+        this.showToast('success', "Opa...", "Limpei o Formulário para Você ;)", 'b-toaster-bottom-left', true)
       },
+      resetData() {
+        Object.assign(this.$data, this.$options.data())
+      }
     },
   }
 </script>

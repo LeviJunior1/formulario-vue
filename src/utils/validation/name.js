@@ -1,8 +1,7 @@
-const padraoNome = /^a-z/gi
+let reg = /^[a-zA-Z ]+$/
 
 const validarNome = (nome) => {
-    console.log('nome: aa:  ', nome, ' - ' ,padraoNome.test(nome) || !nome)
-    return padraoNome.test(nome)
+    return reg.test(nome)
 }
 
 export { validarNome }
