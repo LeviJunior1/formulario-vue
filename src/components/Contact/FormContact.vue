@@ -43,7 +43,7 @@
       </ValidationProvider>
 
       <b-button type="submit" :disabled="invalid" variant="primary">Enviar</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
+      <b-button type="reset" variant="danger">Resetar</b-button>
     </b-form>
   </ValidationObserver>
 </template>
@@ -51,14 +51,14 @@
 <script>
   import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
   import { required, email } from 'vee-validate/dist/rules';
+  import { setInfo } from '@/utils/sessionStorage'
 
   /*
 
-    Campo de validar nome falta o validador,
-    CSS do formulário,
-    SessionStorage para salvar as informações,
-    Pagina de lista de contatos,
-    Css página de contato
+    - Campo de validar nome falta o validador,
+    - CSS do formulário,
+    - Pagina de lista de contatos,
+    - Css página de contato
 
   */
 
@@ -95,7 +95,7 @@
     }),
     methods: {
       onSubmit() {
-        alert(JSON.stringify(this.form))
+        setInfo(this.form)
       },
       onReset() {
         Object.assign(this.$data, this.$options.data())
