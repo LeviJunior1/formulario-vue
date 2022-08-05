@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Contact</router-link> |
-      <router-link to="/about">List</router-link>
-    </nav>
     <main>
       <router-view/>
     </main>
@@ -23,5 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
   
   height: 100vh;
+  margin: 15px;
 }
 </style>

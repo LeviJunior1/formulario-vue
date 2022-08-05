@@ -3,7 +3,7 @@ import { keySessionStorage } from '@/utils/global'
 const getKey = (email) => `${keySessionStorage}-${email}`
 
 export const getInfo = email => sessionStorage.getItem(getKey(email))
-export const setInfo = info => sessionStorage.setItem(`${keySessionStorage}-${info.email}`, JSON.stringify(info))
+export const setInfo = info => sessionStorage.setItem(getKey(info.email), JSON.stringify(info))
 export const deleteInfo = email => sessionStorage.removeItem(getKey(email))
 export const deleteAll = _ => sessionStorage.clear()
 export const getAllInfo = _ => {

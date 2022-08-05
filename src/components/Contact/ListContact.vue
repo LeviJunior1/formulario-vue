@@ -12,9 +12,9 @@
         </template>
         <template #cell(actions)="row">
             <b-button size="sm" variant="info" @click="showModal(row.item.message)" class="mr-1">
-                Abrir Mensagem
+                Mensagem
             </b-button>
-            <b-button size="sm" variant="outline-danger" @click="removeInfo(row.item.email)" class="mr-1">
+            <b-button size="sm" variant="outline-danger" @click="removeInfo(row.item.email)">
                 <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
             </b-button>
         </template>
@@ -29,7 +29,7 @@
         Apagar Tudo
     </b-button>
     <b-modal id="modal-message" hide-footer title="Mensagem do Cliente">
-      <p class="modal-message">
+      <p class="text-break">
         {{ message }}
       </p>
     </b-modal>
@@ -82,9 +82,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .modal-message {
-        word-break: break-all;
-    }
-</style>

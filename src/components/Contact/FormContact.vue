@@ -1,31 +1,38 @@
 <template>
-  <ValidationObserver v-slot="{ invalid }">
+  <ValidationObserver v-slot="{ invalid }" tag="form" ref="observer">
+    <h1 class="text-primary font-weight-bold">Contato</h1>
     <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
-      <ValidationProvider rules="required|name" v-slot="{ errors }">
-        <b-form-group id="input-group-1" label="Nome" label-for="input-1">
-          <b-form-input
-            id="input-1"
-            v-model="form.name"
-            placeholder="Digite seu nome..."
-          ></b-form-input>
-          <span>{{ errors[0] }}</span>
-        </b-form-group>
-      </ValidationProvider>
-      <ValidationProvider rules="required|email" v-slot="{ errors }">
-        <b-form-group
-          id="input-group-2"
-          label="E-mail"
-          label-for="input-2"
-        >
-          <b-form-input
-            id="input-2"
-            v-model="form.email"
-            type="email"
-            placeholder="Digite seu E-mail..."
-          ></b-form-input>
-          <span>{{ errors[0] }}</span>
-        </b-form-group>
-      </ValidationProvider>
+      <b-row>
+        <b-col sm="12" md="6">
+          <ValidationProvider rules="required|name" v-slot="{ errors }">
+            <b-form-group id="input-group-1" label="Nome" label-for="input-1">
+              <b-form-input
+                id="input-1"
+                v-model="form.name"
+                placeholder="Digite seu nome..."
+              ></b-form-input>
+              <span class="text-danger font-weight-bolder">{{ errors[0] }}</span>
+            </b-form-group>
+          </ValidationProvider>
+        </b-col>
+        <b-col sm="12" md="6">
+          <ValidationProvider rules="required|email" v-slot="{ errors }">
+            <b-form-group
+              id="input-group-2"
+              label="E-mail"
+              label-for="input-2"
+            >
+              <b-form-input
+                id="input-2"
+                v-model="form.email"
+                type="email"
+                placeholder="Digite seu E-mail..."
+              ></b-form-input>
+              <span class="text-danger font-weight-bolder">{{ errors[0] }}</span>
+            </b-form-group>
+          </ValidationProvider>
+        </b-col>
+      </b-row>
       <ValidationProvider rules="required|max:300" v-slot="{ errors }">
         <b-form-group
           id="input-group-3"
@@ -38,11 +45,11 @@
             rows="6"
             placeholder="Digite a sua mensagem aqui..."
           ></b-form-textarea>
-          <span>{{ errors[0] }}</span>
+          <span class="text-danger font-weight-bolder">{{ errors[0] }}</span>
         </b-form-group>
       </ValidationProvider>
 
-      <b-button type="submit" :disabled="invalid" variant="primary">Enviar</b-button>
+      <b-button type="submit" :disabled="invalid" variant="primary" class="mr-2">Enviar</b-button>
       <b-button type="reset" variant="danger">Resetar</b-button>
     </b-form>
   </ValidationObserver>
@@ -108,6 +115,10 @@
       },
       resetData() {
         Object.assign(this.$data, this.$options.data())
+        this.resetErrorForm()
+      },
+      resetErrorForm() {
+        this.$refs.observer.reset();
       }
     },
   }
