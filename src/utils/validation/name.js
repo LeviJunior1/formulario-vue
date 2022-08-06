@@ -1,4 +1,4 @@
-let reg = /^[a-zA-Z ]+$/
+let reg = /^[a-zA-Zà-úÀ-Ú ]+$/
 
 const validarNome = (nome) => {
     return reg.test(nome)
